@@ -2,6 +2,15 @@ from sklearn import neural_network, neighbors, tree, svm, naive_bayes, metrics, 
 
 # Where pipeline will be
 # TODO add actual dataset here. iris dataset is just a placeholder
+file = open('appendicitis.dat', 'r')
+content = file.read()
+content = content.split('\n')[12:]
+for instance in content:
+    values = instance.split(',')
+    print(values)
+    for value in values:
+        break
+#       TODO split features from labels here. convert them to actual numbers
 dataset = datasets.load_iris()
 
 # Analogizers
