@@ -26,6 +26,18 @@ def prep_data(fname):
     return _data, _targets
 
 
+def run_model(model):
+    """
+    runs the model
+    :param model: model to run
+    :return: void
+    """
+    model.fit(data, targets)
+    predictions = model.predict(data)
+    score = metrics.accuracy_score(predictions, targets)
+    print(score)
+
+
 # Where pipeline will be
 warnings.warn = warn
 file = open('appendicitis.dat', 'r')
@@ -35,37 +47,13 @@ data, targets = prep_data(file)
 # Splits the data into train/test, SHOULD BE USED FOR PIPELINE
 # x_train, x_test, y_train, y_test = model_selection.train_test_split(data, targets, test_size=.2)
 
-
 # Analogizers
-model = neighbors.KNeighborsClassifier()
-model.fit(data, targets)
-predictions = model.predict(data)
-print(metrics.accuracy_score(predictions, targets))
-
+run_model(neighbors.KNeighborsClassifier())
 # ALSO ANALOGIZERS
-model = svm.SVC()
-model.fit(data, targets)
-predictions = model.predict(data)
-score = metrics.accuracy_score(predictions, targets)
-print(score)
-
+run_model(svm.SVC())
 # Connectionists
-model = neural_network.MLPClassifier()
-model.fit(data, targets)
-predictions = model.predict(data)
-score = metrics.accuracy_score(predictions, targets)
-print(score)
-
+run_model(neural_network.MLPClassifier())
 # Symbolists
-model = tree.DecisionTreeClassifier()
-model.fit(data, targets)
-predictions = model.predict(data)
-score = metrics.accuracy_score(predictions, targets)
-print(score)
-
+run_model(tree.DecisionTreeClassifier())
 # Bayesians
-model = naive_bayes.GaussianNB()
-model.fit(data, targets)
-predictions = model.predict(data)
-score = metrics.accuracy_score(predictions, targets)
-print(score)
+run_model(naive_bayes.GaussianNB())
