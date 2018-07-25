@@ -1,40 +1,59 @@
-from sklearn import neural_network, neighbors, tree, svm, naive_bayes, metrics, datasets
+
+
+from sklearn import neural_network, neighbors, tree, svm, naive_bayes, metrics, utils, model_selection
+import warnings
+
+
+def warn(*args, **kwargs):
+    pass
+
+
+def prep_data(fname):
+    """
+    Makes the data readable by the the machine learning models
+    :param fname: file with dataset
+    :return: the split up data and targets of dataset
+    """
+    content = fname.read()
+    content = content.split('\n')[12:-1]
+    _data = list()
+    _targets = list()
+    # get individual data points in each data instance and separate the data from the targets
+    for instance in content:
+        values = instance.split(',')
+        _data.append([float(i) for i in values[:7]])
+        _targets.append(int(values[7]))
+    return _data, _targets
+
+
+def run_model(model):
+    """
+    runs the model
+    :param model: model to run
+    :return: void
+    """
+    model.fit(data, targets)
+    predictions = model.predict(data)
+    score = metrics.accuracy_score(predictions, targets)
+    print(score)
+
 
 # Where pipeline will be
-# TODO add actual dataset here. iris dataset is just a placeholder
-dataset = datasets.load_iris()
+warnings.warn = warn
+file = open('appendicitis.dat', 'r')
+data, targets = prep_data(file)
+# Shuffles the data, SHOULD BE USED FOR PIPELINE
+# data, targets = utils.shuffle(data, targets)
+# Splits the data into train/test, SHOULD BE USED FOR PIPELINE
+# x_train, x_test, y_train, y_test = model_selection.train_test_split(data, targets, test_size=.2)
 
 # Analogizers
-model = neighbors.KNeighborsClassifier()
-model.fit(dataset.data, dataset.target)
-predictions = model.predict(dataset.data)
-print(metrics.accuracy_score(predictions, dataset.target))
-
+run_model(neighbors.KNeighborsClassifier())
 # ALSO ANALOGIZERS
-model = svm.SVC()
-model.fit(dataset.data, dataset.target)
-predictions = model.predict(dataset.data)
-score = metrics.accuracy_score(predictions, dataset.target)
-print(score)
-
+run_model(svm.SVC())
 # Connectionists
-model = neural_network.MLPClassifier()
-model.fit(dataset.data, dataset.target)
-predictions = model.predict(dataset.data)
-score = metrics.accuracy_score(predictions, dataset.target)
-print(score)
-
+run_model(neural_network.MLPClassifier())
 # Symbolists
-model = tree.DecisionTreeClassifier()
-model.fit(dataset.data, dataset.target)
-predictions = model.predict(dataset.data)
-score = metrics.accuracy_score(predictions, dataset.target)
-print(score)
-
+run_model(tree.DecisionTreeClassifier())
 # Bayesians
-model = naive_bayes.GaussianNB()
-model.fit(dataset.data, dataset.target)
-predictions = model.predict(dataset.data)
-score = metrics.accuracy_score(predictions, dataset.target)
-print(score)
-
+run_model(naive_bayes.GaussianNB())
