@@ -1,0 +1,40 @@
+DT
+Accuracy: 1.0
+                 precision    recall  f1-score   support
+
+No Appendicitis       1.00      1.00      1.00        85
+   Appendicitis       1.00      1.00      1.00        21
+
+    avg / total       1.00      1.00      1.00       106
+
+
+MLP
+Accuracy: 0.8962264150943396
+                 precision    recall  f1-score   support
+
+No Appendicitis       0.89      0.99      0.94        85
+   Appendicitis       0.92      0.52      0.67        21
+
+    avg / total       0.90      0.90      0.88       106
+
+
+NB
+Accuracy: 0.8584905660377359
+                 precision    recall  f1-score   support
+
+No Appendicitis       0.93      0.89      0.91        85
+   Appendicitis       0.62      0.71      0.67        21
+
+    avg / total       0.87      0.86      0.86       106
+
+
+KNN
+Accuracy: 0.8773584905660378
+                 precision    recall  f1-score   support
+
+No Appendicitis       0.90      0.95      0.93        85
+   Appendicitis       0.75      0.57      0.65        21
+
+    avg / total       0.87      0.88      0.87       106
+
+
