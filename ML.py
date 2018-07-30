@@ -1,5 +1,3 @@
-
-
 from sklearn import neural_network, neighbors, tree, svm, naive_bayes, metrics, utils, model_selection
 import warnings
 
@@ -34,26 +32,31 @@ def run_model(model):
     """
     model.fit(data, targets)
     predictions = model.predict(data)
-    score = metrics.accuracy_score(predictions, targets)
-    print(score)
+    accuracy = metrics.accuracy_score(targets, predictions)
+    classif_report = metrics.classification_report(targets, predictions,
+                                                   target_names=["No Appendicitis", "Appendicitis"])
+    newfile.write("Accuracy: " + str(accuracy) + '\n')
+    newfile.write(classif_report + '\n\n')
 
 
 # Where pipeline will be
 warnings.warn = warn
 file = open('appendicitis.dat', 'r')
+newfile = open('results.txt', 'w')
 data, targets = prep_data(file)
 # Shuffles the data, SHOULD BE USED FOR PIPELINE
 # data, targets = utils.shuffle(data, targets)
 # Splits the data into train/test, SHOULD BE USED FOR PIPELINE
 # x_train, x_test, y_train, y_test = model_selection.train_test_split(data, targets, test_size=.2)
-
-# Analogizers
-run_model(neighbors.KNeighborsClassifier())
-# ALSO ANALOGIZERS
-run_model(svm.SVC())
-# Connectionists
-run_model(neural_network.MLPClassifier())
 # Symbolists
+newfile.write('DT\n')
 run_model(tree.DecisionTreeClassifier())
+# Connectionists
+newfile.write('MLP\n')
+run_model(neural_network.MLPClassifier())
 # Bayesians
+newfile.write('NB\n')
 run_model(naive_bayes.GaussianNB())
+# Analogizers
+newfile.write('KNN\n')
+run_model(neighbors.KNeighborsClassifier())
