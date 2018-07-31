@@ -1,5 +1,16 @@
-from sklearn import neural_network, neighbors, tree, svm, naive_bayes, metrics, utils, model_selection
 import warnings
+import numpy as np
+
+from sklearn.neural_network import MLPClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import classification_report, accuracy_score
+from sklearn.model_selection import StratifiedShuffleSplit
+
+from imblearn.pipeline import make_pipeline
+from imblearn.under_sampling import RepeatedEditedNearestNeighbours
+from imblearn.over_sampling import SMOTE
 
 
 def warn(*args, **kwargs):
@@ -21,7 +32,7 @@ def prep_data(fname):
         values = instance.split(',')
         _data.append([float(i) for i in values[:7]])
         _targets.append(int(values[7]))
-    return _data, _targets
+    return np.array(_data), np.array(_targets)
 
 
 def run_model(model):
@@ -30,33 +41,44 @@ def run_model(model):
     :param model: model to run
     :return: void
     """
-    model.fit(data, targets)
-    predictions = model.predict(data)
-    accuracy = metrics.accuracy_score(targets, predictions)
-    classif_report = metrics.classification_report(targets, predictions,
+    model.fit(x_train, y_train)
+    predictions = model.predict(x_test)
+    accuracy = accuracy_score(y_test, predictions)
+    report = classification_report(y_test, predictions,
                                                    target_names=["No Appendicitis", "Appendicitis"])
-    newfile.write("Accuracy: " + str(accuracy) + '\n')
-    newfile.write(classif_report + '\n\n')
+    report_file.write("Accuracy: " + str(accuracy) + '\n')
+    report_file.write(report + '\n\n')
 
 
 # Where pipeline will be
 warnings.warn = warn
 file = open('appendicitis.dat', 'r')
-newfile = open('results.txt', 'w')
+report_file = open('results.txt', 'w')
 data, targets = prep_data(file)
-# Shuffles the data, SHOULD BE USED FOR PIPELINE
-# data, targets = utils.shuffle(data, targets)
-# Splits the data into train/test, SHOULD BE USED FOR PIPELINE
-# x_train, x_test, y_train, y_test = model_selection.train_test_split(data, targets, test_size=.2)
+
+# PIPELINE
+# Create the samplers
+smote = SMOTE()
+enn = RepeatedEditedNearestNeighbours()
+# Make shuffle and split in such a way that there are an equal amount of the minority class in each
+sss = StratifiedShuffleSplit(n_splits=1, test_size=0.3)
+for train_index, test_index in sss.split(data, targets):
+    x_train, x_test = data[train_index], data[test_index]
+    y_train, y_test = targets[train_index], targets[test_index]
+
 # Symbolists
-newfile.write('DT\n')
-run_model(tree.DecisionTreeClassifier())
+report_file.write('DT\n')
+pipeline = make_pipeline(smote, enn, DecisionTreeClassifier())
+run_model(pipeline)
 # Connectionists
-newfile.write('MLP\n')
-run_model(neural_network.MLPClassifier())
+report_file.write('MLP\n')
+pipeline = make_pipeline(smote, enn, MLPClassifier())
+run_model(pipeline)
 # Bayesians
-newfile.write('NB\n')
-run_model(naive_bayes.GaussianNB())
+report_file.write('NB\n')
+pipeline = make_pipeline(smote, enn, GaussianNB())
+run_model(pipeline)
 # Analogizers
-newfile.write('KNN\n')
-run_model(neighbors.KNeighborsClassifier())
+report_file.write('KNN\n')
+pipeline = make_pipeline(smote, enn, KNeighborsClassifier(1))
+run_model(pipeline)
