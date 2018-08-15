@@ -50,7 +50,7 @@ def run_model(model):
 
 # Where pipeline will be
 warnings.warn = warn
-file = open('appendicitis.dat', 'r')
+file = open('../datasets/appendicitis.dat', 'r')
 report_file = open('results.txt', 'w')
 data, targets = prep_data(file)
 
