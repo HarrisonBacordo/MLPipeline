@@ -1,0 +1,50 @@
+SYMBOLIST
+Accuracy: 0.90625
+                 precision    recall  f1-score   support
+
+No Appendicitis       0.93      0.96      0.94        26
+   Appendicitis       0.80      0.67      0.73         6
+
+    avg / total       0.90      0.91      0.90        32
+
+
+CONNECTIONIST
+Accuracy: 0.90625
+                 precision    recall  f1-score   support
+
+No Appendicitis       0.93      0.96      0.94        26
+   Appendicitis       0.80      0.67      0.73         6
+
+    avg / total       0.90      0.91      0.90        32
+
+
+EVOLUTIONIST
+Accuracy: 0.78125
+                 precision    recall  f1-score   support
+
+No Appendicitis       0.81      0.96      0.88        26
+   Appendicitis       0.00      0.00      0.00         6
+
+    avg / total       0.66      0.78      0.71        32
+
+
+BAYESIAN
+Accuracy: 0.875
+                 precision    recall  f1-score   support
+
+No Appendicitis       0.96      0.88      0.92        26
+   Appendicitis       0.62      0.83      0.71         6
+
+    avg / total       0.90      0.88      0.88        32
+
+
+ANALOGIZER
+Accuracy: 0.84375
+                 precision    recall  f1-score   support
+
+No Appendicitis       0.89      0.92      0.91        26
+   Appendicitis       0.60      0.50      0.55         6
+
+    avg / total       0.83      0.84      0.84        32
+
+
