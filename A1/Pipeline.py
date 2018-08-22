@@ -53,7 +53,7 @@ def run_model(model, num):
     predictions = model.predict(x_test)
     accuracy = accuracy_score(y_test, predictions)
     report = classification_report(y_test, predictions,
-                                                   target_names=["No Appendicitis", "Appendicitis"])
+                                   target_names=["No Appendicitis", "Appendicitis"])
     report_file.write("Accuracy: " + str(accuracy) + '\n')
     report_file.write(report + '\n\n')
 
@@ -86,8 +86,8 @@ pipeline = make_pipeline(k_best, smote, renn, MLPClassifier())
 run_model(pipeline, 1)
 # Evolutionist
 paramgrid = {"kernel": ["rbf"],
-             "C"     : np.logspace(-9, 9, num=25, base=10),
-             "gamma" : np.logspace(-9, 9, num=25, base=10)}
+             "C": np.logspace(-9, 9, num=25, base=10),
+             "gamma": np.logspace(-9, 9, num=25, base=10)}
 report_file.write('EVOLUTIONIST\n')
 pipeline = make_pipeline(k_best, smote, renn, EvolutionaryAlgorithmSearchCV(estimator=SVC(), params=paramgrid))
 run_model(pipeline, 2)
